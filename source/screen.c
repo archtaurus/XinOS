@@ -3,12 +3,14 @@
 #include "types.h"
 #include "screen.h"
 
-char color = 0x0F;
+int cursorX = 0;
+int cursorY = 0;
+uint8 color   = 0x0F;
 volatile char *screen = (volatile char*)0xB8000;
 
 /* 清空屏幕 */
-void clear(void) {
-    uint16 i = 0;
+void cls(void) {
+    int i = 0;
     while(i < 4000) {
         screen[i++] = ' ';
         screen[i++] = color;
@@ -16,7 +18,7 @@ void clear(void) {
 }
 
 /* 在指定位置输出字符串 */
-void mvaddstr(const string str, uint8 row, uint8 col, int color) {
+void putsat(const char *str, int row, int col, uint8 color) {
     int i = 0;
     int j = (80 * row + col) * 2;
     while(str[i]) {
@@ -27,7 +29,8 @@ void mvaddstr(const string str, uint8 row, uint8 col, int color) {
     }
 }
 
-void mvaddch(const char ch, uint8 row, uint8 col, int color){
+/* 在指定位置输出字符 */
+void putcat(char ch, int row, int col, uint8 color){
     int i = (80 * row + col) * 2;
     screen[i] = ch;
     if(color) screen[i + 1] = color;

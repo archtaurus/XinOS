@@ -3,8 +3,9 @@
 #include "types.h"
 #include "string.h"
 
-uint16 strlen(const string str){
-    uint16 i = 0;
+/* 返回字符串长度 */
+uint32 strlen(const char *str){
+    int i = 0;
     while(str[i++]);
     return i;
 }
