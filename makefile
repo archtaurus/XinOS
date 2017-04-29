@@ -17,7 +17,7 @@ obj/%.o: source/%.c
 
 .PHONY : run clean
 
-run: xinos.iso
+run: root/xinos.iso
 	@qemu-system-i386 -cdrom xinos.iso -boot d
 
 clean:

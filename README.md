@@ -1,8 +1,8 @@
 # XinOS
-My DIY OS
+My DIY Operating System
 
 # 环境要求
-gcc, nasm, ld, grub, qemu (or virtualbox)
+gcc, nasm, ld, grub2, qemu (or virtualbox)
 
 # 编译运行
 ```bash
