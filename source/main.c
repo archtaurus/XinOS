@@ -1,6 +1,6 @@
 /* main.c for XinOS */
 
-#include "screen.h"
+#include "xinos.h"
 
 int main(void) {
     clear();

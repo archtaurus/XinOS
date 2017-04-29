@@ -1,11 +1,14 @@
 /* screen.c for XinOS */
 
-int color = 0x07;
+#include "types.h"
+#include "screen.h"
+
+char color = 0x0F;
 volatile char *screen = (volatile char*)0xB8000;
 
 /* 清空屏幕 */
 void clear(void) {
-    unsigned int i = 0;
+    uint16 i = 0;
     while(i < 4000) {
         screen[i++] = ' ';
         screen[i++] = color;
@@ -13,11 +16,11 @@ void clear(void) {
 }
 
 /* 在指定位置输出字符串 */
-void mvaddstr(const char* str, int row, int col, int color) {
+void mvaddstr(const char* string, uint8 row, uint8 col, int color) {
     int i = 0;
     int j = (80 * row + col) * 2;
-    while(str[i]) {
-        screen[j] = str[i];
+    while(string[i]) {
+        screen[j] = string[i];
         if(color) screen[j + 1] = color;
         i ++;
         j += 2;

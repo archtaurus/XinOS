@@ -4,6 +4,6 @@
 #define SCREEN_H
 
 void clear(void);
-void mvaddstr(const char*, int, int, int);
+void mvaddstr(const char*, uint8, uint8, int);
 
 #endif
