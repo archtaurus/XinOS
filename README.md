@@ -1,5 +1,5 @@
 # XinOS
-My DIY Operating System
+My DIY operating system for study
 
 ![](https://raw.githubusercontent.com/archtaurus/XinOS/master/snapshots/firstlook.png)
 
