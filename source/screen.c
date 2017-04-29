@@ -16,13 +16,19 @@ void clear(void) {
 }
 
 /* 在指定位置输出字符串 */
-void mvaddstr(const char* string, uint8 row, uint8 col, int color) {
+void mvaddstr(const string str, uint8 row, uint8 col, int color) {
     int i = 0;
     int j = (80 * row + col) * 2;
-    while(string[i]) {
-        screen[j] = string[i];
+    while(str[i]) {
+        screen[j] = str[i];
         if(color) screen[j + 1] = color;
         i ++;
         j += 2;
     }
+}
+
+void mvaddch(const char ch, uint8 row, uint8 col, int color){
+    int i = (80 * row + col) * 2;
+    screen[i] = ch;
+    if(color) screen[i + 1] = color;
 }

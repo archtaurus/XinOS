@@ -19,6 +19,6 @@ typedef unsigned int uint32;
 typedef signed long long int64;
 typedef unsigned long long uint64;
 
-typedef char* str;
+typedef char* string;
 
 #endif

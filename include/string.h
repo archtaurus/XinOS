@@ -3,6 +3,6 @@
 #ifndef string_H
 #define string_H
 
-uint16 strlen(const str string);
+uint16 strlen(const string str);
 
 #endif
