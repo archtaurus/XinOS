@@ -1,4 +1,4 @@
-# makefile for XinOS
+# Makefile for XinOS
 
 CFLAGS=-Wall -m32
 HEADER=-Iinclude
@@ -6,10 +6,10 @@ HEADER=-Iinclude
 xinos.iso: root/boot/kernel
 	grub-mkrescue root/ -o $@
 
-root/boot/kernel: obj/kernel.o obj/main.o obj/screen.o
+root/boot/kernel: obj/kernel.elf obj/main.o obj/screen.o
 	ld -m elf_i386 -T source/link.ld $? -o $@
 
-obj/kernel.o: source/kernel.asm
+obj/kernel.elf: source/kernel.asm
 	nasm -f elf32 $< -o $@
 
 obj/%.o: source/%.c
