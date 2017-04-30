@@ -62,7 +62,7 @@ void putcat(char ch, uint16_t row, uint16_t col, uint8_t color) {
 
 /* 指定位置和颜色输出字符串 */
 void putsat(const char *str, uint16_t row, uint16_t col, uint8_t color) {
-    char ch;
+    uint8_t  ch;
     uint16_t i = 0;
     uint16_t j = getchidx(row, col);
     while(ch = str[i++]) {
