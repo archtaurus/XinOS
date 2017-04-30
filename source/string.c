@@ -5,7 +5,7 @@
 
 /* 返回字符串长度 */
 uint32_t strlen(const char *str){
-	int i = 0;
+	uint32_t i = 0;
 	while(str[i++]);
 	return i;
 }
