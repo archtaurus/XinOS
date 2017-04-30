@@ -1,6 +1,6 @@
 # Makefile for XinOS
 
-CFLAGS=-Wall -m32
+CFLAGS=-Wall -m32 -O2
 HEADER=-Iinclude
 
 xinos.iso: root/boot/kernel
@@ -13,7 +13,7 @@ obj/kernel.elf: source/kernel.asm
 	nasm -f elf32 $< -o $@
 
 obj/%.o: source/%.c
-	gcc $(CFLAGS) -c $< -o $@ $(HEADER)
+	gcc $(CFLAGS) $(HEADER) -c $< -o $@
 
 .PHONY : run clean
 
