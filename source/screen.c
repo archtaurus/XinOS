@@ -40,7 +40,7 @@ uint8_t *screen  = (uint8_t *)0xB8000;  // 内存地址B8000段开始的4000字�
 /* 清空屏幕 */
 void cls(void) {
     uint16_t i = 0;
-    uint16_t ch = padding | (color << 8);
+    uint16_t ch = padding | color << 8;
     uint16_t *p = screen;
     while(i < screenW * screenH) p[i++] = ch;
 }
