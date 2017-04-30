@@ -1,12 +1,12 @@
 # Makefile for XinOS
 
-CFLAGS=-Wall -m32 -O2
+CFLAGS=-Wall -m32 -O2 -std=c11
 HEADER=-Iinclude
 
-xinos.iso: root/boot/kernel
+xinos.iso: root/kernel root/boot/grub/grub.cfg
 	grub-mkrescue root/ -o $@
 
-root/boot/kernel: obj/kernel.elf obj/main.o obj/string.o obj/screen.o
+root/kernel: obj/kernel.elf obj/main.o obj/string.o obj/screen.o
 	ld -m elf_i386 -T source/link.ld obj/kernel.elf obj/main.o obj/string.o obj/screen.o -o $@
 
 obj/kernel.elf: source/kernel.asm
@@ -21,4 +21,4 @@ run: xinos.iso
 	@qemu-system-i386 -cdrom xinos.iso -boot d
 
 clean:
-	@rm -vf obj/* root/boot/kernel xinos.iso
+	@rm -vf obj/* root/kernel xinos.iso

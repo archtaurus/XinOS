@@ -3,7 +3,7 @@
 #include "xinos.h"
 
 int main(void) {
-	string str = "strlen(\"system\") = ";
+	char *str = "strlen(\"system\") = ";
 
 	cls();
 	putsat("Welcome!", 10, 30, 0x0C);

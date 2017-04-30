@@ -44,7 +44,7 @@ volatile uint8_t *screen  = (volatile uint8_t *)0xB8000;
 void cls(void) {
     uint16_t i = 0;
     uint16_t ch = padding | color << 8;
-    volatile uint16_t *p = screen;
+    volatile uint16_t *p = (volatile uint16_t *)screen;
     while(i < screenW * screenH) p[i++] = ch;
 }
 
@@ -65,7 +65,7 @@ void putsat(const char *str, uint16_t row, uint16_t col, uint8_t color) {
     uint8_t  ch;
     uint16_t i = 0;
     uint16_t j = getchidx(row, col);
-    while(ch = str[i++]) {
+    while((ch = str[i++])) {
         screen[j++] = ch;
         if(color) screen[j++] = color;
     }
