@@ -4,7 +4,7 @@
 #define SCREEN_H
 
 void cls(void);
-void putsat(const char *, int, int, uint8);
-void putcat(char, int, int, uint8);
+void putsat(const char *, uint16, uint16, uint8);
+void putcat(char, uint16, uint16, uint8);
 
 #endif
