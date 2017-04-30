@@ -35,7 +35,7 @@ uint8_t  fgcolor = WHITE;  // 当前前景颜色
 uint8_t  bgcolor = BLACK;  // 当前背景颜色
 uint8_t  color   = WHITE;  // 当前颜色
 uint8_t  padding = ' ';    // 当前填充字符
-uint8_t *screen  = (uint8_t *)0xB8000;  // 内存地址B8000开始的4000字节用于储存文本模式下的屏幕内容
+uint8_t *screen  = (uint8_t *)0xB8000;  // 内存地址B8000段开始的4000字节用于储存文本模式下的屏幕内容
 
 /* 清空屏幕 */
 void cls(void) {
@@ -45,9 +45,13 @@ void cls(void) {
     while(i < screenW * screenH) p[i++] = ch;
 }
 
+uint16_t chidx(uint16_t row, uint16_t col) {
+    return (80 * row + col) * 2;
+}
+
 /* 指定位置和颜色输出字符 */
 void putcat(char ch, uint16_t row, uint16_t col, uint8_t color) {
-    uint16_t i = (80 * row + col) * 2;
+    uint16_t i = chidx(row, col);
     screen[i] = ch;
     if(color) screen[i + 1] = color;
 }
@@ -56,7 +60,7 @@ void putcat(char ch, uint16_t row, uint16_t col, uint8_t color) {
 void putsat(const char *str, uint16_t row, uint16_t col, uint8_t color) {
     char ch;
     uint16_t i = 0;
-    uint16_t j = (80 * row + col) * 2;
+    uint16_t j = chidx(row, col);
     while(ch = str[i++]) {
         screen[j++] = ch;
         if(color) screen[j++] = color;
