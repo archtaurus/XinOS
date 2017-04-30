@@ -42,10 +42,10 @@ volatile uint8_t *screen  = (volatile uint8_t *)0xB8000;
 
 /* 清空屏幕 */
 void cls(void) {
-    uint16_t i = 0;
-    uint16_t ch = padding | color << 8;
+    uint16_t pad = color << 8 | padding;
     volatile uint16_t *p = (volatile uint16_t *)screen;
-    while(i < screenW * screenH) p[i++] = ch;
+    while(p < (volatile uint16_t *)(screen + screenW * screenH * 2))
+        *p++ = pad;
 }
 
 /* 返回指定位置上字符的序号 */
@@ -57,16 +57,15 @@ uint16_t getchidx(uint16_t row, uint16_t col) {
 void putcat(char ch, uint16_t row, uint16_t col, uint8_t color) {
     uint16_t i = getchidx(row, col);
     screen[i] = ch;
-    if(color) screen[i + 1] = color;
+    if(color) screen[i+1] = color;
 }
 
 /* 指定位置和颜色输出字符串 */
 void putsat(const char *str, uint16_t row, uint16_t col, uint8_t color) {
-    uint8_t  ch;
-    uint16_t i = 0;
-    uint16_t j = getchidx(row, col);
-    while((ch = str[i++])) {
-        screen[j++] = ch;
-        if(color) screen[j++] = color;
+    volatile uint8_t *p = (volatile uint8_t *)screen + getchidx(row, col);
+    while(*str != 0) {
+        *p++ = *str++;
+        if(color) *p = color;
+        p++;
     }
 }
