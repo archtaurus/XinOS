@@ -31,27 +31,27 @@
 // int screen_height = 25;
 // int total_characters = screen_width * screen_height;
 // int screen_data_size = total_characters * 2;
-uint16	cursorX	= 0;
-uint16	cursorY	= 0;
-uint8	fgcolor	= WHITE;	// 当前的前景颜色
-uint8	bgcolor	= BLACK;	// 当前的背景颜色
-uint8	color	= 0x0F;		// bgcolor << 4 | fgcolor;
-uint8	padding	= ' ';		// 当前的填充字符
+uint16_t	cursorX	= 0;
+uint16_t	cursorY	= 0;
+uint8_t	fgcolor	= WHITE;	// 当前的前景颜色
+uint8_t	bgcolor	= BLACK;	// 当前的背景颜色
+uint8_t	color	= 0x0F;		// bgcolor << 4 | fgcolor;
+uint8_t	padding	= ' ';		// 当前的填充字符
 volatile char *screen = (volatile char *)0xB8000;
 
 /* 清空屏幕 */
 void cls(void) {
-	uint16 i = 0;
-	uint16 ch = padding | (color << 8);
-	volatile uint16 *screen = (volatile uint16 *)0xB8000;
+	uint16_t i = 0;
+	uint16_t ch = padding | (color << 8);
+	volatile uint16_t *screen = (volatile uint16_t *)0xB8000;
 	while(i < 2000) screen[i++] = ch;
 }
 
 /* 在指定位置输出字符串 */
-void putsat(const char *str, uint16 row, uint16 col, uint8 color) {
+void putsat(const char *str, uint16_t row, uint16_t col, uint8_t color) {
 	char ch;
-	uint16 i = 0;
-	uint16 j = (80 * row + col) * 2;
+	uint16_t i = 0;
+	uint16_t j = (80 * row + col) * 2;
 	while(ch = str[i++]) {
 		screen[j++] = ch;
 		if(color) screen[j++] = color;
@@ -59,8 +59,8 @@ void putsat(const char *str, uint16 row, uint16 col, uint8 color) {
 }
 
 /* 在指定位置输出字符 */
-void putcat(char ch, uint16 row, uint16 col, uint8 color) {
-	uint16 i = (80 * row + col) * 2;
+void putcat(char ch, uint16_t row, uint16_t col, uint8_t color) {
+	uint16_t i = (80 * row + col) * 2;
 	screen[i] = ch;
 	if(color) screen[i + 1] = color;
 }
