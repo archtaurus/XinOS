@@ -3,9 +3,9 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#define TRUE    1
-#define FALSE   0
-#define NULL    0
+
+#define NULL 0
+typedef enum { false, true } bool;
 
 typedef signed char int8_t;
 typedef unsigned char uint8_t;
