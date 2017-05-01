@@ -4,7 +4,7 @@
 
 %define multiboot_magic 0x1BADB002
 %define multiboot_flags 0x00000000
-%define multiboot_checksum -(multiboot_magic + multiboot_flags)
+%define multiboot_checksum - (multiboot_magic + multiboot_flags)
 
 ; Declare a multiboot header that marks the program as a kernel. These are magic
 ; values that are documented in the multiboot standard. The bootloader will
@@ -24,8 +24,8 @@ align 4
 [section .text]
 global start:function (end - start)
 start:
-	extern kmain
-	call kmain  ; call c kmain function
+	extern kmain	; declare the kmain function is external
+	call kmain		; call c kmain function
 
 	; If the system has nothing more to do, put the computer into an
 	; infinite loop. To do that:
