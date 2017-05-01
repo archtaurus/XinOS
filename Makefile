@@ -2,14 +2,15 @@
 
 CFLAGS=-Wall -std=c11 -O2 -m32
 HEADER=-Iinclude
+OBJECT=object/boot.o object/kernel.o object/string.o object/screen.o
 
 xinos.iso: root/kernel root/boot/grub/grub.cfg
 	@echo building $@
 	@grub-mkrescue root/ -o $@
 
-root/kernel: object/boot.o object/kernel.o object/string.o object/screen.o
+root/kernel: $(OBJECT)
 	@echo building $@
-	@ld -m elf_i386 -T source/link.ld object/boot.o object/kernel.o object/string.o object/screen.o -o $@
+	@ld -m elf_i386 -T source/link.ld $(OBJECT) -o $@
 
 object/boot.o: source/boot.asm
 	@echo building $@
