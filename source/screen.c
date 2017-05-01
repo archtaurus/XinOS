@@ -4,16 +4,6 @@
 #include "string.h"
 #include "screen.h"
 
-// http://wiki.osdev.org/Bare_Bones#Writing_a_kernel_in_C
-//
-static inline uint8_t entry_color(color_t fgcolor, color_t bgcolor) {
-    return fgcolor | bgcolor << 4;
-}
-
-static inline uint16_t entry(uint8_t ch, uint8_t entry_color) {
-    return (uint16_t) ch | (uint16_t) entry_color << 8;
-}
-
 uint16_t screenW = 80;     // 屏幕宽
 uint16_t screenH = 25;     // 屏幕高
 uint16_t cursorX = 0;      // 光标X
@@ -36,19 +26,19 @@ void cls(void) {
 }
 
 /* 返回指定位置上字符的序号 */
-uint16_t getchidx(uint16_t row, uint16_t col) {
+size_t getchidx(size_t row, size_t col) {
     return (80 * row + col) * 2;
 }
 
 /* 指定位置和颜色输出字符 */
-void putcat(char ch, uint16_t row, uint16_t col, uint8_t color) {
-    uint16_t i = getchidx(row, col);
+void putcat(char ch, size_t row, size_t col, uint8_t color) {
+    size_t i = getchidx(row, col);
     screen[i] = ch;
     if(color) screen[i+1] = color;
 }
 
 /* 指定位置和颜色输出字符串 */
-void putsat(const char *str, uint16_t row, uint16_t col, uint8_t color) {
+void putsat(const char *str, size_t row, size_t col, uint8_t color) {
     volatile uint8_t *p = (volatile uint8_t *)screen + getchidx(row, col);
     while(*str != 0) {
         *p++ = *str++;
