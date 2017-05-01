@@ -1,7 +1,7 @@
 # XinOS
 My DIY operating system for study
 
-![](https://raw.githubusercontent.com/archtaurus/XinOS/master/snapshots/firstlook.png)
+![](https://raw.githubusercontent.com/archtaurus/XinOS/master/screenshots/firstlook.png)
 
 # 环境要求
 gcc, nasm, ld, grub2, qemu (or virtualbox)
