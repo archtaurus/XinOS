@@ -21,4 +21,4 @@ run: xinos.iso
 	@qemu-system-i386 -cdrom xinos.iso -boot d
 
 clean:
-	@rm -vf obj/* root/kernel xinos.iso
+	@rm -vf obj/*.o root/kernel xinos.iso

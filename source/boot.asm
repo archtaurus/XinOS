@@ -4,18 +4,19 @@
 %define multiboot_flags 0x00000000
 
 [bits 32]
+
+[section .text]
+
 global start
 extern kmain
 align  4
 
-[section .text]
 multiboot_header:
 	dd multiboot_magic
 	dd multiboot_flags
 	dd - (multiboot_magic + multiboot_flags) ; multiboot magic checksum
-
 start:
-	cli 		; block interrupts
+	cli 		; clear interrupts
 	call kmain	; call c kmain function
 end:
 	hlt 		; halt the CPU
