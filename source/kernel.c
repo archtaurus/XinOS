@@ -1,8 +1,8 @@
-/* main.c for XinOS */
+/* kernel.c for XinOS */
 
 #include "xinos.h"
 
-int main(void) {
+int kmain(void) {
 	char *str = "strlen(\"system\") = ";
 
 	cls();

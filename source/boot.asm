@@ -5,7 +5,7 @@
 
 [bits 32]
 global start
-extern main
+extern kmain
 align  4
 
 [section .text]
@@ -16,7 +16,7 @@ multiboot_header:
 
 start:
 	cli 		; block interrupts
-	call main	; call c main function
+	call kmain	; call c kmain function
 end:
 	hlt 		; halt the CPU
 	jmp end
