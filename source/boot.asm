@@ -4,9 +4,7 @@
 %define multiboot_flags 0x00000000
 
 [bits 32]
-
 [section .text]
-
 global start
 extern kmain
 align  4
