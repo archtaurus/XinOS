@@ -1,7 +1,7 @@
 /* terminal.h for XinOS */
 
 #ifndef SCREEN_H
-#define SCREEN_H s
+#define SCREEN_H
 
 typedef enum {
     COLOR_BLACK         = 0x00,
