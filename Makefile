@@ -7,15 +7,15 @@ xinos.iso: root/kernel root/boot/grub/grub.cfg
 	@echo building $@
 	@grub-mkrescue root/ -o $@
 
-root/kernel: obj/boot.o obj/kernel.o obj/string.o obj/screen.o
+root/kernel: object/boot.o object/kernel.o object/string.o object/screen.o
 	@echo building $@
-	@ld -m elf_i386 -T source/link.ld obj/boot.o obj/kernel.o obj/string.o obj/screen.o -o $@
+	@ld -m elf_i386 -T source/link.ld object/boot.o object/kernel.o object/string.o object/screen.o -o $@
 
-obj/boot.o: source/boot.asm
+object/boot.o: source/boot.asm
 	@echo building $@
 	@nasm -f elf32 $< -o $@
 
-obj/%.o: source/%.c
+object/%.o: source/%.c
 	@echo building $@
 	@gcc $(CFLAGS) $(HEADER) -c $< -o $@
 
@@ -25,4 +25,4 @@ run: xinos.iso
 	@qemu-system-i386 -cdrom xinos.iso -boot d
 
 clean:
-	@rm -vf obj/*.o root/kernel xinos.iso
+	@rm -vf object/*.o root/kernel xinos.iso
