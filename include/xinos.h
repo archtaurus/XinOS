@@ -5,6 +5,6 @@
 
 #include "types.h"
 #include "string.h"
-#include "screen.h"
+#include "terminal.h"
 
 #endif

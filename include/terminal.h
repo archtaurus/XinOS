@@ -1,4 +1,4 @@
-/* screen.h for XinOS */
+/* terminal.h for XinOS */
 
 #ifndef SCREEN_H
 #define SCREEN_H

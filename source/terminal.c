@@ -1,8 +1,8 @@
-/* screen.c for XinOS */
+/* terminal.c for XinOS */
 
 #include "types.h"
 #include "string.h"
-#include "screen.h"
+#include "terminal.h"
 
 uint16_t screenW = 80;     // 屏幕宽
 uint16_t screenH = 25;     // 屏幕高

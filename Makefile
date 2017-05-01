@@ -2,7 +2,7 @@
 
 CFLAGS=-Wall -std=c11 -O2 -m32
 HEADER=-Iinclude
-OBJECT=object/boot.o object/kernel.o object/string.o object/screen.o
+OBJECT=object/boot.o object/kernel.o object/string.o object/terminal.o
 
 xinos.iso: root/kernel root/boot/grub/grub.cfg
 	@echo building $@
