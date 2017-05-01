@@ -16,3 +16,7 @@ start:
 end:
 	hlt
 	jmp end
+
+[section .data]
+
+[section .bss]
