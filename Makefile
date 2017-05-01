@@ -25,5 +25,8 @@ object/%.o: source/%.c
 run: xinos.iso
 	@qemu-system-i386 -cdrom xinos.iso -boot d
 
+runkernel: root/kernel
+	@qemu-system-i386 -kernel root/kernel
+
 clean:
 	@rm -vf object/*.o root/kernel xinos.iso

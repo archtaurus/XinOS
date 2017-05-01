@@ -6,7 +6,7 @@
 // #include <stddef.h>
 #define NULL 0
 // #include <stdbool.h>
-typedef enum { false, true } bool;
+typedef enum { false=0, true=1 } bool;
 // #include <stdint.h>
 typedef signed char int8_t;
 typedef unsigned char uint8_t;

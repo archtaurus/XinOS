@@ -10,31 +10,43 @@
 //     ||||^----fore colour bright bit
 //     |^^^-----back colour
 //     ^--------back colour bright bit OR enables blinking Text
-#define BLACK           0x00
-#define BLUE            0x01
-#define GREEN           0x02
-#define CYAN            0x03
-#define RED             0x04
-#define MAGENTA         0x05
-#define BROWN           0x06
-#define LIGHT_GRAY      0x07
-#define DARK_GRAY       0x08
-#define LIGHT_BLUE      0x09
-#define LIGHT_GREEN     0x0A
-#define LIGHT_CYAN      0x0B
-#define LIGHT_RED       0x0C
-#define LIGHT_MAGENTA   0x0D
-#define YELLOW          0x0E
-#define WHITE           0x0F
+typedef enum {
+    COLOR_BLACK         = 0x00,
+    COLOR_BLUE          = 0x01,
+    COLOR_GREEN         = 0x02,
+    COLOR_CYAN          = 0x03,
+    COLOR_RED           = 0x04,
+    COLOR_MAGENTA       = 0x05,
+    COLOR_BROWN         = 0x06,
+    COLOR_LIGHT_GRAY    = 0x07,
+    COLOR_DARK_GRAY     = 0x08,
+    COLOR_LIGHT_BLUE    = 0x09,
+    COLOR_LIGHT_GREEN   = 0x0A,
+    COLOR_LIGHT_CYAN    = 0x0B,
+    COLOR_LIGHT_RED     = 0x0C,
+    COLOR_LIGHT_MAGENTA = 0x0D,
+    COLOR_YELLOW        = 0x0E,
+    COLOR_WHITE         = 0x0F,
+} color_t;
+
+// http://wiki.osdev.org/Bare_Bones#Writing_a_kernel_in_C
+//
+static inline uint8_t entry_color(color_t fgcolor, color_t bgcolor) {
+    return fgcolor | bgcolor << 4;
+}
+
+static inline uint16_t entry(uint8_t ch, uint8_t color) {
+    return (uint16_t) ch | (uint16_t) color << 8;
+}
 
 uint16_t screenW = 80;     // 屏幕宽
 uint16_t screenH = 25;     // 屏幕高
 uint16_t cursorX = 0;      // 光标X
 uint16_t cursorY = 0;      // 光标Y
 bool     hidden  = false;  // 光标隐藏
-uint8_t  fgcolor = WHITE;  // 当前前景颜色
-uint8_t  bgcolor = BLACK;  // 当前背景颜色
-uint8_t  color   = WHITE;  // 当前颜色
+uint8_t  fgcolor = COLOR_WHITE;  // 当前前景颜色
+uint8_t  bgcolor = COLOR_BLACK;  // 当前背景颜色
+uint8_t  color   = COLOR_WHITE;  // 当前颜色
 uint8_t  padding = ' ';    // 当前填充字符
 
 // 内存地址B8000段开始的4000字节用于储存文本模式下的屏幕内容
