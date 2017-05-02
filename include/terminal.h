@@ -22,9 +22,11 @@ typedef enum {
     COLOR_WHITE         = 0x0F,
 } color_t;
 
-void initscr(void);
-void cls(void);
-void putcat(char, size_t, size_t, color_t);
-void putsat(const char *, size_t, size_t, color_t);
+void terminal_init(void);
+void terminal_clear(void);
+void terminal_move(uint8_t, uint8_t);
+void terminal_setcolor(color_t, color_t);
+void terminal_putc(char);
+void terminal_puts(const char *, uint8_t, uint8_t, color_t);
 
 #endif

@@ -4,25 +4,25 @@
 #include "string.h"
 #include "terminal.h"
 
-static const size_t terminal_width  = 80;
-static const size_t terminal_height = 25;
+static const uint8_t terminal_width  = 80;
+static const uint8_t terminal_height = 25;
 // 内存地址B8000段开始的4000字节用于储存文本模式下的屏幕内容
 static const uint16_t *terminal_buffer_top = (uint16_t *)0xB8000;
 static const uint16_t *terminal_buffer_end = (uint16_t *)0xB8000 + 4000;
 
-size_t  terminal_cursor_row;
-size_t  terminal_cursor_column;
-uint8_t terminal_padding_char;
-color_t terminal_foreground_color;
+uint8_t terminal_cursor_row;
+uint8_t terminal_cursor_column;
 color_t terminal_background_color;
+color_t terminal_foreground_color;
 color_t terminal_color;
+volatile uint16_t *terminal_ptr;
 
 /* 返回指定位置上字符的序号 */
-static inline size_t terminal_entry_index(size_t row, size_t col) {
-    return (80 * row + col) * 2;
+static inline uint16_t terminal_entry_index(uint8_t row, uint8_t col) {
+    return 80 * row + col;
 }
 
-static inline color_t terminal_entry_color(color_t fgcolor, color_t bgcolor){
+static inline color_t terminal_entry_color(color_t bgcolor, color_t fgcolor){
     return  bgcolor << 4 | fgcolor;
 }
 
@@ -30,42 +30,41 @@ static inline uint16_t terminal_entry(uint8_t ch, color_t color) {
     return (uint16_t) ch | (uint16_t) color << 8;
 }
 
-static inline void terminal_setcolor(color_t color) {
-    terminal_color = color;
-}
-
 /* 初始化终端窗口 */
-void initscr(void) {
-    terminal_cursor_row         = 0;
-    terminal_cursor_column      = 0;
-    terminal_padding_char       = 0x20;
-    terminal_foreground_color   = COLOR_WHITE;
-    terminal_background_color   = COLOR_BLACK;
-    terminal_color              = terminal_entry_color(terminal_foreground_color,
-                                                       terminal_background_color);
-    cls();
+void terminal_init(void) {
+    terminal_setcolor(COLOR_BLACK, COLOR_WHITE);
+    terminal_clear();
+    terminal_move(0, 0);
 }
 
 /* 清空屏幕 */
-void cls(void) {
-    uint16_t  e = terminal_entry(terminal_padding_char, terminal_color);
-    uint16_t *p = (uint16_t *)terminal_buffer_top;
-    while(p < terminal_buffer_end) *p++ = e;
+void terminal_clear(void) {
+    volatile uint16_t *p = (volatile uint16_t *)terminal_buffer_top;
+    const uint16_t e = terminal_entry(' ', terminal_color);
+    while(p < terminal_buffer_end) *(p++) = e;
 }
 
-/* 指定位置和颜色输出字符 */
-void putcat(char ch, size_t row, size_t col, color_t color) {
-    size_t i = terminal_entry_index(row, col);
-    if(color) {
-        ((uint16_t *)terminal_buffer_top)[i] = terminal_entry(ch, color);
-    } else {
-        ((uint8_t *)terminal_buffer_top)[i] = ch;
-    }
+void terminal_move(uint8_t row, uint8_t col) {
+    terminal_cursor_row    = row;
+    terminal_cursor_column = col;
+    terminal_ptr = (volatile uint16_t *)terminal_buffer_top + terminal_entry_index(row, col);
+}
+
+void terminal_setcolor(color_t bgcolor, color_t fgcolor) {
+    terminal_foreground_color = bgcolor;
+    terminal_foreground_color = fgcolor;
+    terminal_color = terminal_entry_color(terminal_background_color,
+                                          terminal_foreground_color);
+}
+
+/* 输出字符 */
+void terminal_putc(char ch) {
+    *((uint8_t *)terminal_ptr++) = ch;
 }
 
 /* 指定位置和颜色输出字符串 */
-void putsat(const char *str, size_t row, size_t col, color_t color) {
-    volatile uint8_t *p = (volatile uint8_t *)terminal_buffer_top + terminal_entry_index(row, col);
+void terminal_puts(const char *str, uint8_t row, uint8_t col, color_t color) {
+    volatile uint8_t *p = (volatile uint8_t *)terminal_buffer_top + terminal_entry_index(row, col)*2;
     while(*str != 0) {
         *p++ = *str++;
         if(color) *p = color;

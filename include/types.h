@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+// #define NULL 0;
 // typedef enum { false=0, true=1 } bool;
 // typedef signed char int8_t;
 // typedef unsigned char uint8_t;
