@@ -6,10 +6,17 @@ int kmain(void) {
 	char *str = "strlen(\"system\") = ";
 
 	terminal_init();
-	terminal_puts("Welcome!", 10, 30, 0x0C);
-	terminal_puts("This is the XinOS...", 12, 30, 0x09);
-	terminal_puts(str, 14, 30, 0x0A);
-	terminal_move(14, 49);
+	terminal_move_to(10, 30);
+	terminal_set_fgcolor(COLOR_LIGHT_RED);
+	terminal_puts("Welcome!");
+	terminal_move_to(12, 30);
+	terminal_set_fgcolor(COLOR_LIGHT_BLUE);
+	terminal_puts("This is the XinOS...");
+	terminal_move_to(14, 30);
+	terminal_set_fgcolor(COLOR_LIGHT_GREEN);
+	terminal_puts(str);
+	terminal_move_to(14, 49);
+	terminal_set_fgcolor(COLOR_WHITE);
 	terminal_putc(strlen("system") + '0');
 
 	return 0;
