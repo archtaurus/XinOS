@@ -24,7 +24,7 @@ typedef enum {
 
 void initscr(void);
 void cls(void);
-void putcat(char, size_t, size_t, uint8_t);
-void putsat(const char *, size_t, size_t, uint8_t);
+void putcat(char, size_t, size_t, color_t);
+void putsat(const char *, size_t, size_t, color_t);
 
 #endif

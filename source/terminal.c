@@ -30,6 +30,10 @@ static inline uint16_t terminal_entry(uint8_t ch, color_t color) {
     return (uint16_t) ch | (uint16_t) color << 8;
 }
 
+static inline void terminal_setcolor(color_t color) {
+    terminal_color = color;
+}
+
 /* 初始化终端窗口 */
 void initscr(void) {
     terminal_cursor_row         = 0;
@@ -50,7 +54,7 @@ void cls(void) {
 }
 
 /* 指定位置和颜色输出字符 */
-void putcat(char ch, size_t row, size_t col, uint8_t color) {
+void putcat(char ch, size_t row, size_t col, color_t color) {
     size_t i = terminal_entry_index(row, col);
     if(color) {
         ((uint16_t *)terminal_buffer_top)[i] = terminal_entry(ch, color);
@@ -60,7 +64,7 @@ void putcat(char ch, size_t row, size_t col, uint8_t color) {
 }
 
 /* 指定位置和颜色输出字符串 */
-void putsat(const char *str, size_t row, size_t col, uint8_t color) {
+void putsat(const char *str, size_t row, size_t col, color_t color) {
     volatile uint8_t *p = (volatile uint8_t *)terminal_buffer_top + terminal_entry_index(row, col);
     while(*str != 0) {
         *p++ = *str++;
