@@ -35,4 +35,4 @@
 # My stuff
 book
 xinos.iso
-root/kernel
+root/boot/*kernel
