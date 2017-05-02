@@ -15,7 +15,7 @@ uint8_t terminal_cursor_column;
 color_t terminal_background_color;
 color_t terminal_foreground_color;
 color_t terminal_color;
-volatile uint16_t *terminal_ptr;
+volatile uint16_t *terminal_buffer_ptr;
 
 static inline uint16_t terminal_entry_index(uint8_t row, uint8_t col) {
 	return 80 * row + col;
@@ -56,21 +56,21 @@ void terminal_set_color(color_t bgcolor, color_t fgcolor) {
 
 /* 清空屏幕 */
 void terminal_clear(void) {
-	terminal_ptr = (volatile uint16_t *)terminal_buffer_top;
+	terminal_buffer_ptr = (volatile uint16_t *)terminal_buffer_top;
 	const uint16_t e = terminal_entry(' ', terminal_color);
-	while(terminal_ptr < terminal_buffer_end) *(terminal_ptr++) = e;
+	while(terminal_buffer_ptr < terminal_buffer_end) *(terminal_buffer_ptr++) = e;
 	terminal_move(0, 0);
 }
 
 void terminal_move(uint8_t row, uint8_t col) {
 	terminal_cursor_row    = row;
 	terminal_cursor_column = col;
-	terminal_ptr = (volatile uint16_t *)terminal_buffer_top + terminal_entry_index(row, col);
+	terminal_buffer_ptr = (volatile uint16_t *)terminal_buffer_top + terminal_entry_index(row, col);
 }
 
 /* 输出字符 */
 void terminal_putc(char ch) {
-	*(terminal_ptr++) = terminal_entry(ch, terminal_color);
+	*(terminal_buffer_ptr++) = terminal_entry(ch, terminal_color);
 }
 
 /* 指定位置和颜色输出字符串 */
