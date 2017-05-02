@@ -22,8 +22,8 @@ typedef enum {
     COLOR_WHITE         = 0x0F,
 } color_t;
 
+void initscr(void);
 void cls(void);
-// inline size_t getchidx(size_t, size_t) ;
 void putcat(char, size_t, size_t, uint8_t);
 void putsat(const char *, size_t, size_t, uint8_t);
 

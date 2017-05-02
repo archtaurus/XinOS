@@ -4,8 +4,8 @@
 #include "string.h"
 
 /* 返回字符串长度 */
-uint32_t strlen(const char *str){
-	uint32_t i = 0;
+size_t strlen(const char *str){
+	size_t i = 0;
 	while(str[i++]);
 	return i;
 }

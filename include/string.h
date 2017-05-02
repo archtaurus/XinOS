@@ -3,6 +3,6 @@
 #ifndef string_H
 #define string_H
 
-uint32_t strlen(const char *str);
+size_t strlen(const char *str);
 
 #endif

@@ -5,7 +5,7 @@
 int kmain(void) {
 	char *str = "strlen(\"system\") = ";
 
-	cls();
+	initscr();
 	putsat("Welcome!", 10, 30, 0x0C);
 	putsat("This is the XinOS...", 12, 30, 0x09);
 	putsat(str, 14, 30, 0x0A);

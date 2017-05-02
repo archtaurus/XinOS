@@ -1,13 +1,13 @@
 OUTPUT(root/kernel)
 OUTPUT_FORMAT(elf32-i386)
 
-/* tell ld to make this symbol as the start point for the bootloader. */
+/* tell ld to make the 'start' symbol as the start point for the bootloader. */
 ENTRY(start)
 
 SECTIONS
 {
-    /* sections begin at 1 MiB, a conventional place
-       for kernel to be loaded at by the bootloader. */
+    /* sections begin at 1 MiB, a conventional place for kernel to be loaded
+       at by the bootloader. */
     . = 0x100000;
 
     /* First put the multiboot header, as it is required to be put very early
