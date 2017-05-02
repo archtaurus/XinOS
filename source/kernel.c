@@ -21,6 +21,7 @@ int kmain(void) {
 	for(int i=0; i<100; ++i){
 		terminal_puts("Hello, world! ");
 	}
+	terminal_scroll_up();
 
 	return 0;
 }

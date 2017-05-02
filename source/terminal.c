@@ -18,7 +18,7 @@ color_t terminal_foreground_color;
 color_t terminal_color;
 
 static inline uint16_t terminal_entry_index(uint8_t row, uint8_t col) {
-	return 80 * row + col;
+	return TERMINAL_WIDTH * row + col;
 }
 
 static inline color_t terminal_entry_color(color_t bgcolor, color_t fgcolor){
@@ -89,7 +89,7 @@ void terminal_puts(const char *str) {
 
 void terminal_scroll_up(void) {
 	volatile uint16_t *p = (volatile uint16_t *)TERMINAL_BUFFER_TOP;
-	while(p < (uint16_t *)TERMINAL_BUFFER_END - TERMINAL_WIDTH) {
+	while(p < (uint16_t *)TERMINAL_BUFFER_END - TERMINAL_WIDTH - 1) {
 		*p = *(p + TERMINAL_WIDTH);
 		p++;
 	}
