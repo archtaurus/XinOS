@@ -71,11 +71,13 @@ void terminal_move_to(uint8_t row, uint8_t col) {
 /* 输出字符 */
 void terminal_putc(char ch) {
 	*(terminal_buffer_ptr++) = terminal_entry(ch, terminal_color);
+	// terminal_check_column(++terminal_cursor_column);
 }
 
 /* 输出字符串 */
 void terminal_puts(const char *str) {
 	while(*str != 0) {
 		*(terminal_buffer_ptr++) = terminal_entry(*str++, terminal_color);
+		// terminal_check_column(++terminal_cursor_column);
 	}
 }
