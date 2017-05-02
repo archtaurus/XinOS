@@ -76,8 +76,5 @@ void terminal_putc(char ch) {
 
 /* 输出字符串 */
 void terminal_puts(const char *str) {
-	while(*str != 0) {
-		*(terminal_buffer_ptr++) = terminal_entry(*str++, terminal_color);
-		// terminal_check_column(++terminal_cursor_column);
-	}
+	while(*str != 0) terminal_putc(*str++);
 }
