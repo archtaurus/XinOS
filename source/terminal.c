@@ -34,14 +34,14 @@ static inline uint16_t terminal_entry(uint8_t ch, color_t color) {
 void terminal_init(void) {
     terminal_setcolor(COLOR_BLACK, COLOR_WHITE);
     terminal_clear();
-    terminal_move(0, 0);
 }
 
 /* 清空屏幕 */
 void terminal_clear(void) {
-    volatile uint16_t *p = (volatile uint16_t *)terminal_buffer_top;
+    terminal_ptr = (volatile uint16_t *)terminal_buffer_top;
     const uint16_t e = terminal_entry(' ', terminal_color);
-    while(p < terminal_buffer_end) *(p++) = e;
+    while(terminal_ptr < terminal_buffer_end) *(terminal_ptr++) = e;
+    terminal_move(0, 0);
 }
 
 void terminal_move(uint8_t row, uint8_t col) {
