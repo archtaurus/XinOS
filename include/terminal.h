@@ -27,6 +27,7 @@ void terminal_init(void);
 void terminal_move_to(uint8_t, uint8_t);
 void terminal_putc(char);
 void terminal_puts(const char *);
+void terminal_scroll_up(void);
 void terminal_set_fgcolor(color_t);
 void terminal_set_bgcolor(color_t);
 void terminal_set_color(color_t, color_t);

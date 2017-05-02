@@ -74,8 +74,8 @@ void terminal_putc(char ch) {
 	if (++terminal_cursor_column == TERMINAL_WIDTH) {
 		terminal_cursor_column = 0;
 		if (++terminal_cursor_row == TERMINAL_HEIGHT) {
-			// 此处应上滚一行
-			terminal_cursor_row = TERMINAL_HEIGHT - 1;
+			terminal_scroll_up();
+			terminal_cursor_row--;
 			terminal_buffer_ptr -= TERMINAL_WIDTH;
 		}
 	}
@@ -84,5 +84,13 @@ void terminal_putc(char ch) {
 
 /* 输出字符串 */
 void terminal_puts(const char *str) {
-	while(*str != 0) terminal_putc(*str++);
+	while(*str) terminal_putc(*str++);
+}
+
+void terminal_scroll_up(void) {
+	volatile uint16_t *p = (volatile uint16_t *)TERMINAL_BUFFER_TOP;
+	while(p < (uint16_t *)TERMINAL_BUFFER_END - TERMINAL_WIDTH) {
+		*p = *(p + TERMINAL_WIDTH);
+		p++;
+	}
 }

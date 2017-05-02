@@ -18,6 +18,9 @@ int kmain(void) {
 	terminal_move_to(14, 49);
 	terminal_set_fgcolor(COLOR_WHITE);
 	terminal_putc(strlen("system") + '0');
+	for(int i=0; i<100; ++i){
+		terminal_puts("Hello, world! ");
+	}
 
 	return 0;
 }
