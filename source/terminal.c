@@ -4,11 +4,11 @@
 #include "string.h"
 #include "terminal.h"
 
-static const uint8_t terminal_width  = 80;
-static const uint8_t terminal_height = 25;
+static const uint8_t TERMINAL_WIDTH  = 80;
+static const uint8_t TERMINAL_HEIGHT = 25;
 // 内存地址B8000段开始的4000字节用于储存文本模式下的屏幕内容
-static const uint16_t *terminal_buffer_top = (uint16_t *)0xB8000;
-static const uint16_t *terminal_buffer_end = (uint16_t *)0xB8000 + 4000;
+static const uint16_t *TERMINAL_BUFFER_TOP = (uint16_t *)0xB8000;
+static const uint16_t *TERMINAL_BUFFER_END = (uint16_t *)0xB8000 + 4000;
 
 volatile uint16_t *terminal_buffer_ptr;
 uint8_t terminal_cursor_row;
@@ -56,22 +56,30 @@ void terminal_set_color(color_t bgcolor, color_t fgcolor) {
 
 /* 清空屏幕 */
 void terminal_clear(void) {
-	terminal_buffer_ptr = (volatile uint16_t *)terminal_buffer_top;
+	terminal_buffer_ptr = (volatile uint16_t *)TERMINAL_BUFFER_TOP;
 	const uint16_t e = terminal_entry(' ', terminal_color);
-	while(terminal_buffer_ptr < terminal_buffer_end) *(terminal_buffer_ptr++) = e;
+	while(terminal_buffer_ptr < TERMINAL_BUFFER_END) *(terminal_buffer_ptr++) = e;
 	terminal_move_to(0, 0);
 }
 
 void terminal_move_to(uint8_t row, uint8_t col) {
 	terminal_cursor_row    = row;
 	terminal_cursor_column = col;
-	terminal_buffer_ptr = (volatile uint16_t *)terminal_buffer_top + terminal_entry_index(row, col);
+	terminal_buffer_ptr = (volatile uint16_t *)TERMINAL_BUFFER_TOP + terminal_entry_index(row, col);
 }
 
 /* 输出字符 */
 void terminal_putc(char ch) {
-	*(terminal_buffer_ptr++) = terminal_entry(ch, terminal_color);
-	// terminal_check_column(++terminal_cursor_column);
+	terminal_buffer_ptr++;
+	if (++terminal_cursor_column == TERMINAL_WIDTH) {
+		terminal_cursor_column = 0;
+		if (++terminal_cursor_row == TERMINAL_HEIGHT) {
+			// 此处应上滚一行
+			terminal_cursor_row = TERMINAL_HEIGHT - 1;
+			terminal_buffer_ptr -= TERMINAL_WIDTH;
+		}
+	}
+	*terminal_buffer_ptr = terminal_entry(ch, terminal_color);
 }
 
 /* 输出字符串 */
