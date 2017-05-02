@@ -1,4 +1,4 @@
-OUTPUT(root/kernel)
+OUTPUT(root/boot/xinkernel)
 OUTPUT_FORMAT(elf32-i386)
 
 /* tell ld to make the 'start' symbol as the start point for the bootloader. */

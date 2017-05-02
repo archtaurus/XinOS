@@ -4,11 +4,11 @@ CFLAGS=-Wall -std=c11 -O2 -m32
 HEADER=-Iinclude
 OBJECT=object/boot.o object/kernel.o object/string.o object/terminal.o
 
-xinos.iso: root/kernel root/boot/grub/grub.cfg
+xinos.iso: root/boot/xinkernel root/boot/grub/grub.cfg
 	@echo building $@
 	@grub-mkrescue root/ -o $@
 
-root/kernel: $(OBJECT)
+root/boot/xinkernel: $(OBJECT)
 	@echo building $@
 	@ld -m elf_i386 -T source/link.ld $(OBJECT) -o $@
 
@@ -29,4 +29,4 @@ runkernel: root/kernel
 	@qemu-system-i386 -kernel root/kernel
 
 clean:
-	@rm -vf object/*.o root/kernel xinos.iso
+	@rm -vf object/*.o root/boot/xinkernel xinos.iso
