@@ -32,8 +32,27 @@ static inline uint16_t terminal_entry(uint8_t ch, color_t color) {
 
 /* 初始化终端窗口 */
 void terminal_init(void) {
-    terminal_setcolor(COLOR_BLACK, COLOR_WHITE);
+    terminal_set_color(COLOR_BLACK, COLOR_WHITE);
     terminal_clear();
+}
+
+void terminal_set_fgcolor(color_t fgcolor) {
+    terminal_foreground_color = fgcolor;
+    terminal_color = terminal_entry_color(terminal_background_color,
+                                          terminal_foreground_color);
+}
+
+void terminal_set_bgcolor(color_t bgcolor) {
+    terminal_background_color = bgcolor;
+    terminal_color = terminal_entry_color(terminal_background_color,
+                                          terminal_foreground_color);
+}
+
+void terminal_set_color(color_t bgcolor, color_t fgcolor) {
+    terminal_foreground_color = bgcolor;
+    terminal_foreground_color = fgcolor;
+    terminal_color = terminal_entry_color(terminal_background_color,
+                                          terminal_foreground_color);
 }
 
 /* 清空屏幕 */
@@ -48,13 +67,6 @@ void terminal_move(uint8_t row, uint8_t col) {
     terminal_cursor_row    = row;
     terminal_cursor_column = col;
     terminal_ptr = (volatile uint16_t *)terminal_buffer_top + terminal_entry_index(row, col);
-}
-
-void terminal_setcolor(color_t bgcolor, color_t fgcolor) {
-    terminal_foreground_color = bgcolor;
-    terminal_foreground_color = fgcolor;
-    terminal_color = terminal_entry_color(terminal_background_color,
-                                          terminal_foreground_color);
 }
 
 /* 输出字符 */
